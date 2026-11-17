@@ -1,55 +1,151 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Medical Insurance Prediction</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Medical Insurance Cost Prediction</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eaf2f8;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            background: white;
+            max-width: 450px;
+            margin: 30px auto;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        h1 {
+            text-align: center;
+            color: #24527a;
+            font-size: 25px;
+        }
+
+        p {
+            text-align: center;
+            color: #666;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 11px;
+            margin-top: 7px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 22px;
+            background: #24527a;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #163a59;
+        }
+
+        .result {
+            margin-top: 25px;
+            padding: 18px;
+            background: #d4edda;
+            color: #155724;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .result h2 {
+            font-size: 20px;
+        }
+
+        .result h1 {
+            color: #155724;
+        }
+    </style>
 </head>
+
 <body>
+
+<div class="container">
+
     <h1>Medical Insurance Cost Prediction</h1>
 
+    <p>Enter your details to predict your insurance cost.</p>
+
     <form action="/predict" method="POST">
-        <label>Age:</label>
-        <input type="number" name="age" required>
 
-        <br><br>
+        <label>Age</label>
+        <input type="number" name="age"
+               min="1" max="120" required>
 
-        <label>Sex:</label>
-        <select name="sex">
+        <label>Gender</label>
+        <select name="sex" required>
             <option value="male">Male</option>
             <option value="female">Female</option>
         </select>
 
-        <br><br>
+        <label>BMI</label>
+        <input type="number" name="bmi"
+               step="any" min="1" required>
 
-        <label>BMI:</label>
-        <input type="number" step="any" name="bmi" required>
+        <label>Children</label>
+        <input type="number" name="children"
+               min="0" required>
 
-        <br><br>
-
-        <label>Children:</label>
-        <input type="number" name="children" required>
-
-        <br><br>
-
-        <label>Smoker:</label>
-        <select name="smoker">
+        <label>Smoker</label>
+        <select name="smoker" required>
             <option value="yes">Yes</option>
             <option value="no">No</option>
         </select>
 
-        <br><br>
-
-        <label>Region:</label>
-        <select name="region">
+        <label>Region</label>
+        <select name="region" required>
             <option value="southwest">Southwest</option>
             <option value="southeast">Southeast</option>
             <option value="northwest">Northwest</option>
             <option value="northeast">Northeast</option>
         </select>
 
-        <br><br>
+        <button type="submit">
+            Predict Insurance Cost
+        </button>
 
-        <button type="submit">Predict Insurance Cost</button>
     </form>
+
+    {% if prediction is defined and prediction is not none %}
+
+    <div class="result">
+        <h2>Predicted Insurance Cost</h2>
+
+        <h1>${{ "%.2f"|format(prediction|float) }}</h1>
+
+        <p>Your estimated medical insurance cost.</p>
+    </div>
+
+    {% endif %}
+
+</div>
+
 </body>
 </html>
